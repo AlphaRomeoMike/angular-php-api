@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2020 at 01:04 PM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.3.10
+-- Generation Time: Dec 10, 2020 at 09:46 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -37,7 +36,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `st_getUser` ()  BEGIN
                u.u_phone as "Phone"
                
                FROM tbl_users u
-               ORDER BY u.u_id DESC;
+               ORDER BY u.u_id ASC;
     END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `st_insertUser` (IN `name` VARCHAR(30), IN `age` TINYINT, IN `phone` VARCHAR(15))  BEGIN
@@ -69,13 +68,6 @@ CREATE TABLE `tbl_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tbl_users`
---
-
-INSERT INTO `tbl_users` (`u_id`, `u_name`, `u_age`, `u_phone`) VALUES
-(1, 'Bravo', 23, '090078602');
-
---
 -- Indexes for dumped tables
 --
 
@@ -93,7 +85,7 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
