@@ -20,7 +20,7 @@
 </head>
 
 <body ng-app="myApp" ng-controller="myCont">
-    <div class="container" ng-init="retrieve()">
+    <div class="container" ng-init="retrieve(); btnName='SAVE'">
         <div class="jumbotron">
             <h3 class="text-center">Angular and PHP based Application Programming Interface</h3>
         </div>
@@ -32,7 +32,7 @@
 
             <div class="form-group">
                 <label for="name">Age: </label>
-                <input type="number" class="form-control form-control-sm" ng-model="ageTxt" placeholder="Enter your age (e.g. 23)">
+                <input type="text" class="form-control form-control-sm" ng-model="ageTxt" placeholder="Enter your age (e.g. 23)">
             </div>
 
             <div class="form-group">
@@ -41,12 +41,13 @@
             </div>
 
             <div class="form-group">
-                <input type="button" class="btn btn-dark btn-sm col-12 " value="SAVE" placeholder="Enter number (e.g. 0900-78601)">
+                <input type="button" class="btn btn-dark btn-sm col-12" value="{{btnName}}" ng-click="insert()">
             </div>
+            <p class="text-center alert alert-dark">{{ message }}</p>
             <hr />
             <table class="table table-secondary table-bordered">
                 <thead>
-                    <th class="text-center text-uppercase">Serial #</th>
+                    <th class="text-center text-uppercase">S. No</th>
                     <th class="text-center text-uppercase">Name</th>
                     <th class="text-center text-uppercase">Age</th>
                     <th class="text-center text-uppercase">Phone</th>
@@ -59,9 +60,9 @@
                         <td>{{ x.Name }}</td>
                         <td>{{ x.Age }}</td>
                         <td>{{ x.Phone }}</td>
-                        <td class="text-center">
-                            <button class="btn btn-info">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
+                        <td class="text-center" colspan="2">
+                            <button class="btn btn-info" ng-click="edit(x.ID, x.Name, x.Age, x.Phone)">Edit</button>
+                            <button class="btn btn-danger" ng-click="delete(x.ID)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -71,6 +72,67 @@
     <script>
         var app = angular.module("myApp", []);
         app.controller("myCont", function($scope, $http) {
+            //Data Deletion Starts
+            $scope.delete = function(id) {
+                $http.post("delete.php", {
+                    'id': id
+                }).then(function($response) {
+                    $scope.message = $response.data.msg;
+                    console.log($scope.message);
+                    $scope.retrieve();
+                    $scope.nameTxt = "";
+                    $scope.ageTxt = "";
+                    $scope.phoneTxt = "";
+                });
+            };
+            //Data Deletion Ends
+            //Data Fetching For Updation Starts
+            $scope.edit = function(id, name, age, phone) {
+                $scope.nameTxt = name;
+                $scope.ageTxt = age;
+                $scope.phoneTxt = phone;
+                $scope.userID = id;
+                $scope.btnName = "UPDATE";
+            };
+            //Data Fetching For Updation Ends
+
+            $scope.insert = function() {
+                //Data Updation Starts
+                if ($scope.btnName == "UPDATE") {
+                    $http.post("update.php", {
+                        'id': $scope.userID,
+                        'name': $scope.nameTxt,
+                        'age': $scope.ageTxt,
+                        'phone': $scope.phoneTxt
+                    }).then(function($response) {
+                        $scope.message = $response.data.msg;
+                        $scope.nameTxt = "";
+                        $scope.ageTxt = "";
+                        $scope.phoneTxt = "";
+                        $scope.userID = 0;
+                        console.log($scope.message);
+                        $scope.retrieve();
+                    });
+                    //Data Updation Ends
+                } else {
+                    // Data Insertion Starts
+                    $http.post("insert.php", {
+                        'name': $scope.nameTxt,
+                        'age': $scope.ageTxt,
+                        'phone': $scope.phoneTxt
+                    }).then(function($response) {
+                        $scope.message = $response.data.msg;
+                        $scope.nameTxt = "";
+                        $scope.ageTxt = "";
+                        $scope.phoneTxt = "";
+                        console.log($scope.message);
+                        $scope.retrieve();
+                    });
+                    // Data Insertion Ends
+                }
+
+            };
+            // Data Retrieval Starts
             $scope.retrieve = function() {
                 $http.get('select.php').then(function($response) {
                     $scope.myData = $response.data;
@@ -78,6 +140,7 @@
                 });
             };
         });
+        // Data Retrieval Ends
     </script>
 
 

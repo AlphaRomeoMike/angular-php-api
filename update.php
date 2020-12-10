@@ -14,5 +14,5 @@
         $response["msg"] = "User update response from server failed";
     }
 
-    echo json_decode($response);
+    echo json_encode($response);
 ?>
