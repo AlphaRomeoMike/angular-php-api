@@ -30,3 +30,7 @@ Create a new database name it:
 After createing the database, gp to import tab, choose the file front the cloned/downloaded folder and select the api.sql file and press **GO** to import the database
 ###### Step 6: 
 Go to URL **_localhost/api/home.html_**, voila, enjoy your API seamlessly.
+
+
+## Still want to see how it works?
+Headover to https://www.youtube.com/watch?v=7DOL7LJsjZw
