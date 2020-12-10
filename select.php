@@ -1,16 +1,17 @@
 <?php
     require "connection.php";
-    $data = json_decode(file_get_contents("php://input"));
 
     $query = "CALL st_getUser()";
     $response = array();
-    $res = mysqli_query();
+    $res = mysqli_query($con, $query);
 
-    if(mysqli_query($con, $query)) {
-        $response["msg"] = "User update response from server was a success ";
+    if(mysqli_num_rows($res)) {
+        while($row = mysqli_fetch_assoc($res)) {
+            $response[] = $row;
+        }
     } else {
-        $response["msg"] = "Update response from server failed";
+        $response["msg"] = "No records";
     }
 
-    echo json_decode($response);
+    echo json_encode($response);
 ?>

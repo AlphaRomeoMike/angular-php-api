@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Angular Script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <title>Angular JS CRUD API</title>
+    <style>
+        .jumbotron {
+            background-color: rgba(73, 104, 105, 0.486);
+        }
+    </style>
+</head>
+
+<body ng-app="myApp" ng-controller="myCont">
+    <div class="container" ng-init="retrieve()">
+        <div class="jumbotron">
+            <h3 class="text-center">Angular and PHP based Application Programming Interface</h3>
+        </div>
+        <div class="col-8 offset-2">
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" class="form-control form-control-sm" ng-model="nameTxt" placeholder="Enter your name (e.g. Ali)">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Age: </label>
+                <input type="number" class="form-control form-control-sm" ng-model="ageTxt" placeholder="Enter your age (e.g. 23)">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Phone: </label>
+                <input type="text" class="form-control form-control-sm" ng-model="phoneTxt" placeholder="Enter number (e.g. 0900-78601)">
+            </div>
+
+            <div class="form-group">
+                <input type="button" class="btn btn-dark btn-sm col-12 " value="SAVE" placeholder="Enter number (e.g. 0900-78601)">
+            </div>
+            <hr />
+            <table class="table table-secondary table-bordered">
+                <thead>
+                    <th class="text-center text-uppercase">Serial #</th>
+                    <th class="text-center text-uppercase">Name</th>
+                    <th class="text-center text-uppercase">Age</th>
+                    <th class="text-center text-uppercase">Phone</th>
+                    <th class="text-center text-uppercase" colspan="2">Actions</th>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="x in myData">
+                        <td>{{ x.ID }}</td>
+                        <td>{{ x.Name }}</td>
+                        <td>{{ x.Age }}</td>
+                        <td>{{ x.Phone }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-info">Edit</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("myCont", function($scope, $http) {
+            $scope.retrieve = function() {
+                $http.get('select.php').then(function($response) {
+                    $scope.myData = $response.data;
+                    console.log("$scope.myData");
+                });
+            };
+        });
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
