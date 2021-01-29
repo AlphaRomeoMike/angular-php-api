@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2020 at 09:46 PM
+-- Generation Time: Jan 29, 2021 at 08:44 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -91,3 +91,43 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `st_deleteUser`(`id` INT)
+BEGIN
+    	DELETE FROM tbl_users WHERE u_id = id;
+    END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `st_getUser`()
+BEGIN
+    	SELECT u.u_id as "ID",
+        	   u.u_name as "Name",
+               u.u_age as "Age",
+               u.u_phone as "Phone"
+               
+               FROM tbl_users u
+               ORDER BY u.u_id ASC;
+    END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `st_insertUser`(IN `name` VARCHAR(30), IN `age` TINYINT, IN `phone` VARCHAR(15))
+BEGIN
+    	INSERT INTO tbl_users (u_name, u_age, u_phone) VALUES (name, age, phone);
+    END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `st_updateUser`(`name` VARCHAR(30), `age` TINYINT, `phone` VARCHAR(15), `id` INT)
+BEGIN
+    	UPDATE tbl_users SET 
+        	u_name = name,
+            u_age  = age,
+            u_phone = phone
+            	WHERE 
+            u_id = id;
+    END$$
+DELIMITER ;
